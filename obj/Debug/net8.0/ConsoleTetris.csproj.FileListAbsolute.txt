@@ -12,3 +12,4 @@ C:\Users\zbc23obbh\source\repos\ConsoleTetris\ConsoleTetris\obj\Debug\net8.0\ref
 C:\Users\zbc23obbh\source\repos\ConsoleTetris\ConsoleTetris\obj\Debug\net8.0\ConsoleTetris.pdb
 C:\Users\zbc23obbh\source\repos\ConsoleTetris\ConsoleTetris\obj\Debug\net8.0\ConsoleTetris.genruntimeconfig.cache
 C:\Users\zbc23obbh\source\repos\ConsoleTetris\ConsoleTetris\obj\Debug\net8.0\ref\ConsoleTetris.dll
+C:\Users\zbc23obbh\source\repos\ConsoleTetris\ConsoleTetris\obj\Debug\net8.0\ConsoleTetris.sourcelink.json

@@ -1,7 +1,5 @@
 ﻿using ConsoleTetris.Objects;
 using ConsoleTetris.Objects.Blocks;
-using System.Data;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ConsoleTetris
 {

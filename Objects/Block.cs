@@ -94,12 +94,11 @@ namespace ConsoleTetris.Objects
 
         static public bool QuickPlace(Block curBlock)
         {
-            int maxDropDistance = 23; // Assuming this is the maximum possible drop distance based on your board size
+            int maxDropDistance = 23;
 
             foreach (var pos in curBlock.Positions)
             {
                 int dropDistance = 0;
-                // Adjust the loop condition if necessary to fit your game's board size
                 for (int y = pos.Y + 1; y <= 23; y++) // Assuming 23 is the maximum height your board can have
                 {
                     // Check if the current position is occupied, breaking before incrementing dropDistance
@@ -112,18 +111,15 @@ namespace ConsoleTetris.Objects
                 }
 
                 maxDropDistance = Math.Min(maxDropDistance, dropDistance);
-                maxDropDistance = Math.Max(maxDropDistance, 1);
             }
 
-            // Move the block down by maxDropDistance
-            // Ensure maxDropDistance is not its initialized value if no valid move found
             if (maxDropDistance != 24)
             {
-                curBlock.OffsetY += maxDropDistance - 1; // Update block's Y position
-                return true; // Block placed successfully
+                curBlock.OffsetY += maxDropDistance;
+                return true;
             }
 
-            return false; // No movement needed or possible
+            return false;
         }
 
         static bool IsPositionOccupied(int x, int y, Block curBlock)
@@ -142,16 +138,14 @@ namespace ConsoleTetris.Objects
 
         static public List<(int X, int Y)> GetLowestPositions(Block curBlock)
         {
-            // If curBlock.Positions is empty, we return an empty list to prevent a NullReferenceException.
             if (curBlock.Positions.Count == 0)
             {
                 return new List<(int X, int Y)>();
             }
 
-            // Get the maximum Y value, which corresponds to the lowest position in the grid.
             int maxY = curBlock.Positions.Max(pos => pos.Y);
             Debug.WriteLine(maxY);
-            // Find all positions with this maxY value.
+
             return curBlock.Positions.Where(pos => pos.Y == maxY).ToList();
         }
 
