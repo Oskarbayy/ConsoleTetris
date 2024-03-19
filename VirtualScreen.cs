@@ -47,7 +47,7 @@ namespace ConsoleTetris
             Clear();
 
             // Sort windows
-            windows.Sort((window1, window2) => window1.Priority.CompareTo(window2.Priority));
+            //windows.Sort((window1, window2) => window1.Priority.CompareTo(window2.Priority));
 
             // Draw on the virtual screen first and show later
             foreach (Board win in windows)
