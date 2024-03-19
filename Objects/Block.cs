@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,7 +49,7 @@ namespace ConsoleTetris.Objects
 
             return false;
         }
-
+        
         static public bool CheckSide(Block curBlock, int num)
         {
             foreach (var pos1 in curBlock.Positions)
@@ -161,7 +162,6 @@ namespace ConsoleTetris.Objects
 
                 if (y > highestY)
                 {
- 
                     highestY = y;
                 }
             }

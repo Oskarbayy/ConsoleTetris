@@ -16,7 +16,7 @@
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++) 
             {
                 VirtualScreen.SetPixel(Parent.OffsetX + OffsetX, Parent.OffsetY + OffsetY + i, '█', this);
                 VirtualScreen.SetPixel(Parent.OffsetX + OffsetX + 1, Parent.OffsetY + OffsetY + i, '█', this);
