@@ -37,7 +37,7 @@ namespace ConsoleTetris
                 {
                     I_Block iBlock = new I_Block(board, 9, 0, 1, 1, 1, true, "IBlock1");
                     curBlock = iBlock;
-
+                    
 
                     I_Block iBlock2 = new I_Block(board, 9, 0, 1, 1, 1, false, "IBlock1");
 

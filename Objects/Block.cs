@@ -15,9 +15,9 @@ namespace ConsoleTetris.Objects
         static List<Block> Blocks = new List<Block>();
 
         public List<(int X, int Y)> Positions = new List<(int X, int Y)>();
-
+        asd
         public (int X, int Y) Pivot { get; set; }
-
+        
         public Block(Board parent, int offsetX, int offsetY, int width, int height, int priority, bool isVisible, string title) 
             : base(parent, offsetX, offsetY, width, height, priority, isVisible, title) 
         {
