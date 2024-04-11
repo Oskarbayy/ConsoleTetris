@@ -1,12 +1,5 @@
 ﻿using ConsoleTetris.Interfaces;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleTetris.Objects
 {
@@ -15,11 +8,18 @@ namespace ConsoleTetris.Objects
         static List<Block> Blocks = new List<Block>();
 
         public List<(int X, int Y)> Positions = new List<(int X, int Y)>();
-        
+
         public (int X, int Y) Pivot { get; set; }
-        
-        public Block(Board parent, int offsetX, int offsetY, int width, int height, int priority, bool isVisible, string title) 
-            : base(parent, offsetX, offsetY, width, height, priority, isVisible, title) 
+
+        private int orientation = 0;
+        public int Orientation
+        {
+            get => orientation;
+            set => orientation = ((value % 360) + 360) % 360; // Ensures the orientation is always 0, 90, 180, or 270
+        }
+
+        public Block(Board parent, int offsetX, int offsetY, int width, int height, int priority, bool isVisible, string title)
+            : base(parent, offsetX, offsetY, width, height, priority, isVisible, title)
         {
             Blocks.Add(this);
         }
@@ -49,19 +49,19 @@ namespace ConsoleTetris.Objects
 
             return false;
         }
-        
+
         static public bool CheckSide(Block curBlock, int num)
         {
             foreach (var pos1 in curBlock.Positions)
             {
                 // Start with checking the border since that requires less
-                if (pos1.X + num < 3 || pos1.X + num > 22)
+                if (pos1.X + num < 4 || pos1.X + num > 22)
                     return false;
 
                 foreach (var block in Blocks.Where(b => b != curBlock))
                 {
                     // check if block position is right beside the curblock pos
-                    if (block.Positions.Any(pos2 => pos1.X+num == pos2.X && pos1.Y == pos2.Y)) 
+                    if (block.Positions.Any(pos2 => pos1.X + num == pos2.X && pos1.Y == pos2.Y))
                     {
                         return false;
                     }
@@ -90,7 +90,7 @@ namespace ConsoleTetris.Objects
                 newPositions.Add((rotatedX + Pivot.X, rotatedY + Pivot.Y));
             }
 
-            Positions = newPositions;
+            this.Positions = newPositions;
         }
 
         static public bool QuickPlace(Block curBlock)
@@ -116,7 +116,7 @@ namespace ConsoleTetris.Objects
 
             if (maxDropDistance != 24)
             {
-                curBlock.OffsetY += maxDropDistance;
+                curBlock.OffsetY += maxDropDistance-1;
                 return true;
             }
 
@@ -141,7 +141,7 @@ namespace ConsoleTetris.Objects
         {
             if (curBlock.Positions.Count == 0)
             {
-                return new List<(int X, int Y)>();
+                return new List<(int X, int Y)>(); // ?
             }
 
             int maxY = curBlock.Positions.Max(pos => pos.Y);
@@ -149,7 +149,6 @@ namespace ConsoleTetris.Objects
 
             return curBlock.Positions.Where(pos => pos.Y == maxY).ToList();
         }
-
 
 
         public int GetLowestPoint()

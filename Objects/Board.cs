@@ -1,9 +1,4 @@
 ﻿using ConsoleTetris.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleTetris.Objects
 {
@@ -15,7 +10,7 @@ namespace ConsoleTetris.Objects
 
 
         public Board(int offsetX, int offsetY, int width, int height, int priority, bool isVisible, string title)
-            : base(null, offsetX, offsetY, width, height, priority, isVisible, title) 
+            : base(null, offsetX, offsetY, width, height, priority, isVisible, title)
         {
             VirtualScreen.windows.Add(this);
         }

@@ -1,5 +1,6 @@
 ﻿using ConsoleTetris.Objects;
 using ConsoleTetris.Objects.Blocks;
+using System.Diagnostics;
 
 namespace ConsoleTetris
 {
@@ -11,7 +12,7 @@ namespace ConsoleTetris
             int score = 0;
             bool gameRunning = true;
             bool controllingBlock = false;
-            Block curBlock = null;
+            Block? curBlock = null;
             Block? next = null;
 
             // Create objects (Load game)
@@ -40,12 +41,29 @@ namespace ConsoleTetris
             // Create current block and next block
             if (!controllingBlock)
             {
-                I_Block iBlock = new I_Block(board, 9, 0, 1, 1, 1, true, "IBlock1");
+                Block iBlock = new I_Block(
+                    parent: board,
+                    offsetX: 9,
+                    offsetY: 0,
+                    width: 1,
+                    height: 1,
+                    priority: 1,
+                    isVisible: true,
+                    title: "IBlock"
+                );
                 curBlock = iBlock;
 
 
-                I_Block iBlock2 = new I_Block(board, 9, 0, 1, 1, 1, false, "IBlock1");
-
+                Block iBlock2 = new I_Block(
+                    parent: board,
+                    offsetX: 9,
+                    offsetY: 0,
+                    width: 1,
+                    height: 1,
+                    priority: 1,
+                    isVisible: false,
+                    title: "IBlock"
+                ); 
                 next = iBlock2;
 
                 controllingBlock = true;
@@ -56,18 +74,27 @@ namespace ConsoleTetris
             {
                 while (gameRunning)
                 {
-                    // Check Clock for Gravity
-                    if ((DateTime.Now - lastTick).TotalMilliseconds >= tickRate && curBlock != null)
+                    if (curBlock != null)
                     {
-                        // About to move block down
                         int lowestPoint = curBlock.GetLowestPoint();
 
-                        if (Block.CheckBlockUnder(curBlock) || lowestPoint == 23) // FIX Block.CheckBlockUnder DOESNT WORK 
+                        if (Block.CheckBlockUnder(curBlock) || lowestPoint == 23)
                         {
+                            // Then change block
                             curBlock = next;
                             curBlock.IsVisible = true;
 
-                            I_Block iBlock = new I_Block(board, 9, 0, 1, 1, 1, false, "IBlock1");
+                            // Create the next block
+                            Block iBlock = new I_Block(
+                                parent: board,
+                                offsetX: 9,
+                                offsetY: 0,
+                                width: 1,
+                                height: 1,
+                                priority: 1,
+                                isVisible: false,
+                                title: "IBlock"
+                            );
                             next = iBlock;
 
                             CheckLines();
@@ -78,7 +105,6 @@ namespace ConsoleTetris
                         lastTick = DateTime.Now;
                     }
 
-                    // Giving the CPU a little less work
                     Thread.Sleep(10);
                 }
             }
@@ -96,7 +122,7 @@ namespace ConsoleTetris
 
                         switch (key)
                         {
-                            case (ConsoleKey.RightArrow):
+                            case (ConsoleKey.D):
                                 // Check all blocks positions to the right if its available
                                 bool canMoveRight = Block.CheckSide(curBlock, 1);
 
@@ -105,7 +131,7 @@ namespace ConsoleTetris
                                     curBlock.OffsetX += 2;
                                 }
                                 break;
-                            case (ConsoleKey.LeftArrow):
+                            case (ConsoleKey.A):
                                 bool canMoveLeft = Block.CheckSide(curBlock, -1);
 
                                 if (canMoveLeft)
@@ -117,7 +143,11 @@ namespace ConsoleTetris
                                 // Spacebar pressed now find the lowest point and calculate to set it to the ground 
                                 Block.QuickPlace(curBlock);
                                 break;
+                            case (ConsoleKey.R):
+                                curBlock.Orientation += 90; // This automatically handles wrapping due to the setter's logic
+                                break;
                         }
+                        //VirtualScreen.Draw();
                     }
 
                     Thread.Sleep(10);

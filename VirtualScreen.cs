@@ -2,7 +2,6 @@
 using ConsoleTetris.Objects;
 using ConsoleTetris.Structs;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace ConsoleTetris
 {
@@ -11,7 +10,9 @@ namespace ConsoleTetris
         static int Width = 100;
         static int Height = 30;
 
-        static ConsolePixel[,] buffer = new ConsolePixel[Width, Height];
+        static ConsolePixel[,] displayBuffer = new ConsolePixel[Width, Height]; // used for when drawing to the screen
+        static ConsolePixel[,] workingBuffer = new ConsolePixel[Width, Height]; // used for the gamestate and background pixels
+
 
         // Windows Loaded
         public static List<Board> windows = new List<Board>();
@@ -55,9 +56,23 @@ namespace ConsoleTetris
                 LoadWindow(win);
             }
 
+            UpdateDisplayBuffer();
+
             if (showScreen)
                 ShowScreen();
         }
+
+        public static void UpdateDisplayBuffer()
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    displayBuffer[x, y] = workingBuffer[x, y];
+                }
+            }
+        }
+
 
         static void ShowScreen()
         {
@@ -67,9 +82,10 @@ namespace ConsoleTetris
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    Console.ForegroundColor = buffer[x, y].ForegroundColor;
-                    Console.BackgroundColor = buffer[x, y].BackgroundColor;
-                    Console.Write(buffer[x, y].Character);
+                    var pixel = displayBuffer[x, y];
+                    Console.ForegroundColor = pixel.ForegroundColor;
+                    Console.BackgroundColor = pixel.BackgroundColor;
+                    Console.Write(pixel.Character);
                 }
                 Console.ResetColor();
 
@@ -91,7 +107,7 @@ namespace ConsoleTetris
 
             if (x >= 0 && x < Width && y >= 0 && y < Height)
             {
-                buffer[x, y] = new ConsolePixel(c, foreground, background);
+                workingBuffer[x, y] = new ConsolePixel(c, foreground, background);
             }
             else
             {
@@ -106,7 +122,7 @@ namespace ConsoleTetris
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    buffer[x, y] = new ConsolePixel(' ', Console.ForegroundColor, Console.BackgroundColor);
+                    workingBuffer[x, y] = new ConsolePixel(' ', Console.ForegroundColor, Console.BackgroundColor);
                 }
             }
         }

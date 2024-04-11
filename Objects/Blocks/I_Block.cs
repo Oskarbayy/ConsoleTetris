@@ -13,20 +13,30 @@
         public override void Draw()
         {
             this.Positions.Clear();
-
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            for (int i = 0; i < 4; i++) 
+            switch (this.Orientation)
             {
-                VirtualScreen.SetPixel(Parent.OffsetX + OffsetX, Parent.OffsetY + OffsetY + i, '█', this);
-                VirtualScreen.SetPixel(Parent.OffsetX + OffsetX + 1, Parent.OffsetY + OffsetY + i, '█', this);
-
+                case 0:
+                case 180:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        VirtualScreen.SetPixel(Parent.OffsetX + OffsetX, Parent.OffsetY + OffsetY + i, '█', this);
+                        VirtualScreen.SetPixel(Parent.OffsetX + OffsetX + 1, Parent.OffsetY + OffsetY + i, '█', this);
+                    }
+                    break;
+                case 90:
+                case 270:
+                    for (int i = 0; i < 8; i++)
+                    {
+                        VirtualScreen.SetPixel(Parent.OffsetX + OffsetX + i - 2, Parent.OffsetY + OffsetY + 1, '█', this);
+                        //VirtualScreen.SetPixel(Parent.OffsetX + OffsetX + i, Parent.OffsetY + OffsetY + 1, '█', this);
+                    }
+                    break;
             }
 
             Console.ResetColor();
-
-            /* var check = this.Positions;
-            var checkNothing = Block.GetLowestPositions(this); */
         }
+
     }
 }
